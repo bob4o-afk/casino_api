@@ -11,7 +11,7 @@ To incorporate the Casino App API into your project, follow these simple steps:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/casino-app-api.git
+   git clone https://github.com/bob4o-afk/casino-app-api.git
    ```
 
 2. Set up the API in your Java project.
