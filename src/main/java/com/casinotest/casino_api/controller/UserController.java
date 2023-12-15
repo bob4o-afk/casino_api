@@ -1,8 +1,8 @@
-// src/main/java/com/casinotest/casino_api/UserController.java
-package com.casinotest.casino_api;
+// src/main/java/com/casinotest/casino_api/controller/UserController.java
+package com.casinotest.casino_api.controller;
 
-import com.casinotest.casino_api.User;
-import com.casinotest.casino_api.UserService;
+import com.casinotest.casino_api.model.User;
+import com.casinotest.casino_api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

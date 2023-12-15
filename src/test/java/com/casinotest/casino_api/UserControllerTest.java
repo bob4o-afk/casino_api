@@ -1,5 +1,3 @@
-// src/test/java/com/casinotest/casino_api/UserControllerTest.java
-
 package com.casinotest.casino_api;
 
 import org.junit.jupiter.api.Test;
@@ -10,6 +8,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.casinotest.casino_api.controller.UserController;
+
+
 @WebMvcTest(UserController.class)
 public class UserControllerTest {
 
@@ -18,7 +19,7 @@ public class UserControllerTest {
 
     @Test
     public void testGetUser() throws Exception {
-        mockMvc.perform(get("/api/users/{userId}", 1L))
+        mockMvc.perform(get("/api/user/{userId}", 1L))
                .andExpect(status().isOk());
     }
 

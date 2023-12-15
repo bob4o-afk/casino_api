@@ -1,5 +1,5 @@
 // src/main/java/com/casinotest/casino_api/service/BetServiceImpl.java
-package com.casinotest.casino_api;
+package com.casinotest.casino_api.service;
 
 import org.springframework.stereotype.Service;
 

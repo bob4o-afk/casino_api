@@ -1,7 +1,7 @@
 // src/main/java/com/casinotest/casino_api/controller/BetController.java
-package com.casinotest.casino_api;
+package com.casinotest.casino_api.controller;
 
-import com.casinotest.casino_api.BetService;
+import com.casinotest.casino_api.service.BetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

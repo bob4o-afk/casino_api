@@ -1,7 +1,7 @@
 // src/main/java/com/casinotest/casino_api/UserServiceImpl.java
-package com.casinotest.casino_api;
+package com.casinotest.casino_api.service;
 
-import com.casinotest.casino_api.User;
+import com.casinotest.casino_api.model.User;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

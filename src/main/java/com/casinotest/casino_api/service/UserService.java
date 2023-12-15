@@ -1,7 +1,7 @@
-// src/main/java/com/casinotest/casino_api/UserService.java
-package com.casinotest.casino_api;
+// src/main/java/com/casinotest/casino_api/service/UserService.java
+package com.casinotest.casino_api.service;
 
-import com.casinotest.casino_api.User;
+import com.casinotest.casino_api.model.User;
 
 import java.util.List;
 
