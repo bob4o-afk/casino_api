@@ -1,4 +1,3 @@
-// src/main/java/com/casinotest/casino_api/service/UserService.java
 package com.casinotest.casino_api.service;
 
 import com.casinotest.casino_api.model.User;
@@ -6,7 +5,7 @@ import com.casinotest.casino_api.model.User;
 import java.util.List;
 
 public interface UserService {
-    boolean createUser(String username, double initial_balance);
+    boolean createUser(String username, double initialBalance);
 
     boolean deleteUser(String userId);
 

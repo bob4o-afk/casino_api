@@ -40,24 +40,24 @@ public class UserController {
             return ResponseEntity.ok(userService.getAllUsers());
         }
     }
-
+    
     @GetMapping("/{userId}/money-won")
-    public ResponseEntity<?> moneyWon(@PathVariable String userId) {
+    public ResponseEntity<Double> moneyWon(@PathVariable String userId) {
         double moneyWon = userService.getMoneyWon(userId);
         if (moneyWon >= 0) {
             return ResponseEntity.ok(moneyWon);
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
-
+    
     @GetMapping("/{userId}/money-lost")
-    public ResponseEntity<?> moneyLost(@PathVariable String userId) {
+    public ResponseEntity<Double> moneyLost(@PathVariable String userId) {
         double moneyLost = userService.getMoneyLost(userId);
         if (moneyLost >= 0) {
             return ResponseEntity.ok(moneyLost);
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 }

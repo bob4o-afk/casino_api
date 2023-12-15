@@ -17,8 +17,8 @@ public class BetController {
     private BetService betService;
 
     @PostMapping
-    public ResponseEntity<String> placeBet(@RequestParam String userId, @RequestParam double amount, @RequestParam String game_type) {
-        boolean success = betService.placeBet(userId, amount, game_type);
+    public ResponseEntity<String> placeBet(@RequestParam String userId, @RequestParam double amount, @RequestParam String gameType) {
+        boolean success = betService.placeBet(userId, amount, gameType);
         return success ? ResponseEntity.ok("Bet placed successfully") : ResponseEntity.badRequest().body("Invalid parameters provided");
     }
 }

@@ -1,8 +1,9 @@
-// src/main/java/com/casinotest/casino_api/model/Bet.java
 package com.casinotest.casino_api.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -11,15 +12,23 @@ public class Bet {
     private double amount;
     private String gameType;
     private boolean won;
+    private LocalDateTime createdAt;    //mb dont need it
+    private final String userId;
 
-    // Constructors, getters, and setters
-
-    public Bet(){
-
+    public Bet(String userId) {
+        this.userId = userId;
+        this.createdAt = LocalDateTime.now();
     }
+
+
     // Other methods as needed
 
-    void setWon(boolean won){
+    public void setWon(boolean won) {
         this.won = won;
+    }
+
+    // Additional validation logic
+    public boolean isValidBet() {
+        return amount > 0.0;
     }
 }

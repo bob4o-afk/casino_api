@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  casino-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - casino-db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://casino-db:3306/casinodb
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root_password
+
+  casino-db:
+    image: mysql:latest
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: casinodb
+    volumes:
+      - ./data:/var/lib/mysql

@@ -1,4 +1,3 @@
-// src/main/java/com/casinotest/casino_api/User.java
 package com.casinotest.casino_api.model;
 
 import lombok.AllArgsConstructor;
@@ -11,7 +10,7 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 public class User {
-    private String userId;
+    private final String userId;
     private String username;
     private double balance;
     private List<Bet> betHistory;
@@ -19,6 +18,11 @@ public class User {
     // Constructors, getters, and setters
 
     public User(String username, double initialBalance) {
+        // Validate initial balance
+        if (initialBalance < 0) {
+            throw new IllegalArgumentException("Initial balance must be non-negative");
+        }
+
         this.username = username;
         this.balance = initialBalance;
         this.userId = generateUserId(username);
@@ -36,8 +40,6 @@ public class User {
     }
 
     private String generateUserId(String username) {
-        String unique_id = username + UUID.randomUUID().toString();
-
-        return unique_id;
+        return username + UUID.randomUUID().toString();
     }
 }
