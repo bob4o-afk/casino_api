@@ -21,7 +21,7 @@ public class User {
     public User(String username, double initialBalance) {
         this.username = username;
         this.balance = initialBalance;
-        this.userId = generateUserId(username); // You need to implement this method to generate a unique user ID
+        this.userId = generateUserId(username);
         this.betHistory = new ArrayList<>();
     }
 
