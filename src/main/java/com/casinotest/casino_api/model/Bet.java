@@ -14,5 +14,12 @@ public class Bet {
 
     // Constructors, getters, and setters
 
+    public Bet(){
+
+    }
     // Other methods as needed
+
+    void setWon(boolean won){
+        this.won = won;
+    }
 }
