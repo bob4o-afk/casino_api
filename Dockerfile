@@ -5,10 +5,10 @@ FROM openjdk:11-jre-slim
 WORKDIR /app
 
 # Copy the application JAR file into the container at /app
-COPY target/casino-app.jar /app/casino-app.jar
+COPY target/casino_api-0.0.1-SNAPSHOT.jar /app/casino-api.jar
 
 # Make port 8080 available to the world outside this container
 EXPOSE 8080
 
 # Run application when the container launches
-CMD ["java", "-jar", "casino-app.jar"]
+CMD ["java", "-jar", "casino-api.jar"]
