@@ -1,14 +1,29 @@
-# Use an official OpenJDK runtime as a parent image
+# Use an official MySQL image as a parent image to start MySQL locally
+FROM mysql:latest
+
+# Set environment variables for MySQL
+ENV MYSQL_ROOT_PASSWORD 1000
+ENV MYSQL_DATABASE bob4o-mysql
+ENV MYSQL_USER bob4o
+ENV MYSQL_PASSWORD 1000
+
+# Expose the MySQL port
+EXPOSE 3306
+
+# Copy the MySQL initialization script to the container
+COPY src/main/resources/db/migration/V2_init.sql /docker-entrypoint-initdb.d/
+
+# Use an official OpenJDK runtime as a parent image for the Java application
 FROM openjdk:11-jre-slim
 
 # Set the working directory to /app
 WORKDIR /app
 
-# Copy the application JAR file into the container at /app
+# Copy the Java application JAR file to the container
 COPY target/casino_api-0.0.1-SNAPSHOT.jar /app/casino-api.jar
 
-# Make port 8080 available to the world outside this container
-EXPOSE 8080
+# Expose the ports needed by the Java application
+EXPOSE 4040
 
-# Run application when the container launches
-CMD ["java", "-jar", "casino-api.jar"]
+# CMD to start MySQL service and run the Java application
+CMD ["sh", "-c", "service mysql start && java -jar casino-api.jar"]

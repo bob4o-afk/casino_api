@@ -6,16 +6,19 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - "4040:4040"
     depends_on:
-      - casino-db
+      - Casino_api
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/Casino_api
+      - SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3307/Casino_api
+      - SPRING_DATASOURCE_USERNAME=bob4o-mysql
+      - SPRING_DATASOURCE_PASSWORD=1000
 
-  casino-db:
+  Casino_api:
     image: mysql:latest
     ports:
       - "3306:3306"
+      - "15672:15672"
     environment:
       MYSQL_ROOT_PASSWORD: 1000
       MYSQL_DATABASE: Casino_api
