@@ -140,6 +140,14 @@ GET /api/user/{userId}/bet-history
 - `200 OK`: User's betting history retrieved successfully.
 - `404 Not Found`: User not found.
 
+
+## Errors
+If you encounter any errors feel free to dm me. Here is one potential error:
+`Port ... already in use`
+This can be fixed as following these steps:
+- `sudo lsof -i :3306` To check for any port usage
+- `sudo kill {the_pid}` To kill the proccess - if the access is denied try different terminal!
+
 ## Contributing
 
 If you find issues or have suggestions for improvements, feel free to open an issue or create a pull request. Your contributions are highly welcome!
