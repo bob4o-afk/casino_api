@@ -1,7 +1,0 @@
-sudo docker-compose up --build
-
-predi tova vij za mysql dali se run-va ->terminal -> sudo systemctl status mysql
-
-sudo lsof -i :3306
-
-sudo kill {porta}
