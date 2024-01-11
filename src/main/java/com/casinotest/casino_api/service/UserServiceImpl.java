@@ -14,43 +14,44 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean createUser(String username, double initial_balance) {
-        // Implement logic to create a new user
-        // Return true if successful, false otherwise
-        return false;
+        User newUser = new User(username, initial_balance);
+        return users.add(newUser);
     }
 
     @Override
     public boolean deleteUser(String userId) {
-        // Implement logic to delete a user
-        // Return true if successful, false otherwise
+        User userToRemove = getUser(userId);
+        if (userToRemove != null) {
+            users.remove(userToRemove);
+            return true;
+        }
         return false;
     }
 
     @Override
     public User getUser(String userId) {
-        // Implement logic to retrieve a user by userId
-        // Return the user if found, null otherwise
+        for (User user : users) {
+            if (user.getUserId().equals(userId)) {
+                return user;
+            }
+        }
         return null;
     }
 
     @Override
     public List<User> getAllUsers() {
-        // Implement logic to retrieve all users
-        // Return the list of users
         return users;
     }
 
     @Override
     public double getMoneyWon(String userId) {
-        // Implement logic to retrieve the amount of money won by a user
-        // Return the amount if the user is found, -1 otherwise
-        return -1;
+        User user = getUser(userId);
+        return (user != null) ? user.getMoneyWon() : -1;
     }
 
     @Override
     public double getMoneyLost(String userId) {
-        // Implement logic to retrieve the amount of money lost by a user
-        // Return the amount if the user is found, -1 otherwise
-        return -1;
+        User user = getUser(userId);
+        return (user != null) ? user.getMoneyLost() : -1;
     }
 }

@@ -42,4 +42,20 @@ public class User {
     private String generateUserId(String username) {
         return username + UUID.randomUUID().toString();
     }
+
+    // Method to get the total amount of money won by the user
+    public double getMoneyWon() {
+        return betHistory.stream()
+                .filter(Bet::isWon)
+                .mapToDouble(Bet::getAmount)
+                .sum();
+    }
+
+    // Method to get the total amount of money lost by the user
+    public double getMoneyLost() {
+        return betHistory.stream()
+                .filter(bet -> !bet.isWon())
+                .mapToDouble(Bet::getAmount)
+                .sum();
+    }
 }
