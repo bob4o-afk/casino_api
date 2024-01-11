@@ -16,4 +16,6 @@ public interface UserService {
     double getMoneyWon(String userId);
 
     double getMoneyLost(String userId);
+
+    void printUserIds();
 }
