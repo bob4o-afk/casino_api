@@ -1,0 +1,134 @@
+openapi: 3.0.0
+info:
+  title: Casino API
+  version: 1.0.0
+paths:
+  /api/user:
+    post:
+      summary: Create a new user
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                initial_balance:
+                  type: number
+      responses:
+        '200':
+          description: User created successfully
+        '400':
+          description: Invalid parameters provided
+
+  /api/user/{userId}:
+    delete:
+      summary: Delete a user
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User deleted successfully
+        '404':
+          description: User not found
+
+    get:
+      summary: Get user information or all users
+      parameters:
+        - name: userId
+          in: path
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User information retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: User not found
+
+  /api/user/{userId}/money-won:
+    get:
+      summary: Get the amount of money won by a user
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Amount of money won retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: number
+        '404':
+          description: User not found
+
+  /api/user/{userId}/money-lost:
+    get:
+      summary: Get the amount of money lost by a user
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Amount of money lost retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: number
+        '404':
+          description: User not found
+
+  /api/user/print-user-ids:
+    get:
+      summary: Print user IDs to console
+      responses:
+        '200':
+          description: User IDs printed to console
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        userId:
+          type: string
+        username:
+          type: string
+        balance:
+          type: number
+        betHistory:
+          type: array
+          items:
+            $ref: '#/components/schemas/Bet'
+
+    Bet:
+      type: object
+      properties:
+        betId:
+          type: string
+        amount:
+          type: number
+        gameType:
+          type: string
+        won:
+          type: boolean
+        createdAt:
+          type: string #mb dont need this
+        userId:
+          type: string
