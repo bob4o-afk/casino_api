@@ -63,4 +63,10 @@ public class UserController {
                 ? ResponseEntity.ok(moneyLost)
                 : ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
+
+    @GetMapping("/print-user-ids")
+    public ResponseEntity<?> printUserIds() {
+        userService.printUserIds();
+        return ResponseEntity.ok("User IDs printed to console");
+    }
 }
