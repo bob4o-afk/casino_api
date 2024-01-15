@@ -9,11 +9,26 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
+import javax.annotation.PostConstruct;
+
 @Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @PostConstruct
+    public void initializeDatabase() {
+        String createTableSQL = "CREATE TABLE IF NOT EXISTS user (" +
+                "user_id VARCHAR(255) PRIMARY KEY," +
+                "username VARCHAR(255) NOT NULL," +
+                "balance DOUBLE NOT NULL," +
+                "money_won DOUBLE DEFAULT 0," +
+                "money_lost DOUBLE DEFAULT 0" +
+                ")";
+        jdbcTemplate.execute(createTableSQL);
+    }
+
 
     @Override
     public boolean createUser(String username, double initial_balance) {

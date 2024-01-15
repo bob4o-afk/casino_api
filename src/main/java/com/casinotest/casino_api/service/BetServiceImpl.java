@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Random;
 
+import javax.annotation.PostConstruct;
+
 @Service
 public class BetServiceImpl implements BetService {
 
@@ -20,6 +22,19 @@ public class BetServiceImpl implements BetService {
     public BetServiceImpl(UserService userService, JdbcTemplate jdbcTemplate) {
         this.userService = userService;
         this.jdbcTemplate = jdbcTemplate;
+    }
+
+    @PostConstruct
+    public void initializeDatabase() {
+        String createTableSQL = "CREATE TABLE IF NOT EXISTS bet (" +
+                "bet_id VARCHAR(255) PRIMARY KEY," +
+                "amount DOUBLE NOT NULL," +
+                "game_type VARCHAR(255) NOT NULL," +
+                "won BOOLEAN NOT NULL," +
+                "user_id VARCHAR(255) NOT NULL," +
+                "FOREIGN KEY (user_id) REFERENCES user(user_id)" +
+                ")";
+        jdbcTemplate.execute(createTableSQL);
     }
 
     private boolean determineBetOutcome() {
