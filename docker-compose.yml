@@ -8,13 +8,13 @@ services:
     ports:
       - "4040:4040"
     depends_on:
-      - Casino_api
+      - casino-api
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3307/Casino_api
-      - SPRING_DATASOURCE_USERNAME=bob4o-mysql
+      - SPRING_DATASOURCE_URL=jdbc:mysql://casino-api:3306/Casino_api
+      - SPRING_DATASOURCE_USERNAME=bob4o
       - SPRING_DATASOURCE_PASSWORD=1000
 
-  Casino_api:
+  casino-api:
     image: mysql:latest
     ports:
       - "3306:3306"
@@ -24,3 +24,7 @@ services:
       MYSQL_DATABASE: Casino_api
     volumes:
       - ./data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
