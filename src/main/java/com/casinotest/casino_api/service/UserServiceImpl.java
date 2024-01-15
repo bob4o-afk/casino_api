@@ -1,11 +1,13 @@
 package com.casinotest.casino_api.service;
 
 import com.casinotest.casino_api.model.User;
+import com.casinotest.casino_api.model.Bet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,6 +25,7 @@ public class UserServiceImpl implements UserService {
                 "user_id VARCHAR(255) PRIMARY KEY," +
                 "username VARCHAR(255) NOT NULL," +
                 "balance DOUBLE NOT NULL," +
+                "betHistory JSON," +
                 "money_won DOUBLE DEFAULT 0," +
                 "money_lost DOUBLE DEFAULT 0" +
                 ")";
@@ -30,13 +33,20 @@ public class UserServiceImpl implements UserService {
     }
 
 
+
     @Override
     public boolean createUser(String username, double initial_balance) {
+        initializeDatabase();
         String userId = generateUserId(username);
-        String sql = "INSERT INTO user (user_id, username, balance) VALUES (?, ?, ?)";
-        int result = jdbcTemplate.update(sql, userId, username, initial_balance);
+        String sql = "INSERT INTO user (user_id, username, balance, betHistory) VALUES (?, ?, ?, ?)";
+        
+        String betHistory = "[]";
+        
+        int result = jdbcTemplate.update(sql, userId, username, initial_balance, betHistory);
         return result > 0;
     }
+
+    
 
     @Override
     public boolean deleteUser(String userId) {

@@ -2,13 +2,17 @@ package com.casinotest.casino_api.service;
 
 import com.casinotest.casino_api.model.Bet;
 import com.casinotest.casino_api.model.User;
+import com.mysql.cj.x.protobuf.MysqlxDatatypes.Array;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 
@@ -43,28 +47,50 @@ public class BetServiceImpl implements BetService {
 
     @Override
     public boolean placeBet(String userId, double amount, String gameType) {
+        // Check for null values
+        if (userId == null || gameType == null) {
+            return false; // Indicate failure due to null values
+        }
+    
+        initializeDatabase();
+    
         User user = userService.getUser(userId);
-
+    
         if (user != null && user.getBalance() >= amount) {
+            if(user.getBetHistory() == null){
+                ArrayList<Bet> betHistory = new ArrayList<Bet>();
+                user.setBetHistory(betHistory);
+            }
             Bet bet = new Bet(userId);
             bet.setAmount(amount);
             bet.setGameType(gameType);
             bet.setWon(determineBetOutcome());
-
-            double winnings = bet.isWon() ? amount * 2 : 0;
+    
+            double winnings = bet.isWon() ? amount * 2 : amount * (-1);
+            String betId = generateBetId();
+            bet.setBetId(betId);
             user.updateBalance(winnings);
+
+            System.out.println(bet);
+            System.out.println(user);
+
+    
+            try {
+                String insertBetSql = "INSERT INTO bet (bet_id, amount, game_type, won, user_id) VALUES (?, ?, ?, ?, ?)";
+                jdbcTemplate.update(insertBetSql, betId, amount, gameType, bet.isWon(), userId);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+    
             user.addBetToHistory(bet);
-
-            // Insert the bet into the database
-            String insertBetSql = "INSERT INTO bet (bet_id, amount, game_type, won, user_id) VALUES (?, ?, ?, ?, ?)";
-            String betId = generateBetId(); // You need to implement this method
-            jdbcTemplate.update(insertBetSql, betId, amount, gameType, bet.isWon(), userId);
-
+            System.out.println("Bet placed successfully");
             return true; // Bet placed successfully
         }
-
-        return false; // Bet unsuccessful (insufficient balance or invalid user)
+    
+        return false; // Indicate failure due to insufficient balance or user not found
     }
+    
 
     @Override
     public List<Bet> getBettingHistory(String userId) {
@@ -86,9 +112,8 @@ public class BetServiceImpl implements BetService {
 
     // Add other methods as needed
 
-    // Implement this method to generate unique bet IDs
     private String generateBetId() {
-        // Your implementation here
-        return "bet" + System.currentTimeMillis();
+        return "bet" + UUID.randomUUID().toString();
     }
+
 }

@@ -10,12 +10,15 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 public class User {
-    private final String userId;
+    private String userId;
     private String username;
     private double balance;
     private List<Bet> betHistory;
 
     // Constructors, getters, and setters
+    public User(){
+
+    }
 
     public User(String username, double initialBalance) {
         // Validate initial balance
@@ -26,7 +29,7 @@ public class User {
         this.username = username;
         this.balance = initialBalance;
         this.userId = generateUserId(username);
-        this.betHistory = new ArrayList<>();
+        this.betHistory = new ArrayList<Bet>();
     }
 
     // Method to update user balance after winning or losing a bet

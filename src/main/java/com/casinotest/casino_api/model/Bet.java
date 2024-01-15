@@ -20,10 +20,16 @@ public class Bet {
         this.createdAt = LocalDateTime.now();
     }
 
-
+    public void setBetId(String betId){
+        this.betId = betId;
+    }
 
     public void setWon(boolean won) {
         this.won = won;
+    }
+
+    public boolean isWon(){
+        return this.won;
     }
 
     public boolean isValidBet() {
