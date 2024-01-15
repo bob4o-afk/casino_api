@@ -21,13 +21,11 @@ public class Bet {
     }
 
 
-    // Other methods as needed
 
     public void setWon(boolean won) {
         this.won = won;
     }
 
-    // Additional validation logic
     public boolean isValidBet() {
         return amount > 0.0;
     }

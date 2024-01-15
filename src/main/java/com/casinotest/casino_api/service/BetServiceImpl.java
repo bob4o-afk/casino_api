@@ -2,24 +2,27 @@ package com.casinotest.casino_api.service;
 
 import com.casinotest.casino_api.model.Bet;
 import com.casinotest.casino_api.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Random;
-
-import org.springframework.stereotype.Service;
 
 @Service
 public class BetServiceImpl implements BetService {
 
     private final UserService userService;
+    private final JdbcTemplate jdbcTemplate;
 
-    public BetServiceImpl(UserService userService) {
+    @Autowired
+    public BetServiceImpl(UserService userService, JdbcTemplate jdbcTemplate) {
         this.userService = userService;
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     private boolean determineBetOutcome() {
-        // Implement your logic for determining the bet outcome
-        // For example, you might want to consider game rules or external factors
         return new Random().nextBoolean();
     }
 
@@ -37,6 +40,11 @@ public class BetServiceImpl implements BetService {
             user.updateBalance(winnings);
             user.addBetToHistory(bet);
 
+            // Insert the bet into the database
+            String insertBetSql = "INSERT INTO bet (bet_id, amount, game_type, won, user_id) VALUES (?, ?, ?, ?, ?)";
+            String betId = generateBetId(); // You need to implement this method
+            jdbcTemplate.update(insertBetSql, betId, amount, gameType, bet.isWon(), userId);
+
             return true; // Bet placed successfully
         }
 
@@ -45,21 +53,27 @@ public class BetServiceImpl implements BetService {
 
     @Override
     public List<Bet> getBettingHistory(String userId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getBettingHistory'");
+        String sql = "SELECT * FROM bet WHERE user_id = ?";
+        return jdbcTemplate.query(sql, new Object[]{userId}, new BeanPropertyRowMapper<>(Bet.class));
     }
 
     @Override
     public double getAmountWon(String userId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAmountWon'");
+        String sql = "SELECT SUM(amount) FROM bet WHERE user_id = ? AND won = true";
+        return jdbcTemplate.queryForObject(sql, new Object[]{userId}, Double.class);
     }
 
     @Override
     public double getAmountLost(String userId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAmountLost'");
+        String sql = "SELECT SUM(amount) FROM bet WHERE user_id = ? AND won = false";
+        return jdbcTemplate.queryForObject(sql, new Object[]{userId}, Double.class);
     }
 
     // Add other methods as needed
+
+    // Implement this method to generate unique bet IDs
+    private String generateBetId() {
+        // Your implementation here
+        return "bet" + System.currentTimeMillis();
+    }
 }

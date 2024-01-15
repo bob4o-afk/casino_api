@@ -12,4 +12,5 @@ public interface BetService {
     double getAmountWon(String userId);
 
     double getAmountLost(String userId);
+    
 }

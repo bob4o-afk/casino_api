@@ -1,13 +1,12 @@
-// src/main/java/com/casinotest/casino_api/controller/BetController.java
 package com.casinotest.casino_api.controller;
 
+import com.casinotest.casino_api.model.Bet;
 import com.casinotest.casino_api.service.BetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/bet")
@@ -21,4 +20,23 @@ public class BetController {
         boolean success = betService.placeBet(userId, amount, gameType);
         return success ? ResponseEntity.ok("Bet placed successfully") : ResponseEntity.badRequest().body("Invalid parameters provided");
     }
+
+    @GetMapping("/{userId}/betting-history")
+    public ResponseEntity<List<Bet>> getBettingHistory(@PathVariable String userId) {
+        List<Bet> bettingHistory = betService.getBettingHistory(userId);
+        return ResponseEntity.ok(bettingHistory);
+    }
+
+    @GetMapping("/{userId}/amount-won")
+    public ResponseEntity<Double> getAmountWon(@PathVariable String userId) {
+        double amountWon = betService.getAmountWon(userId);
+        return ResponseEntity.ok(amountWon);
+    }
+
+    @GetMapping("/{userId}/amount-lost")
+    public ResponseEntity<Double> getAmountLost(@PathVariable String userId) {
+        double amountLost = betService.getAmountLost(userId);
+        return ResponseEntity.ok(amountLost);
+    }
+
 }
