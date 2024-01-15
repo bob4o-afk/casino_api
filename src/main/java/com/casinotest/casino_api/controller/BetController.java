@@ -27,6 +27,13 @@ public class BetController {
         return ResponseEntity.ok(bettingHistory);
     }
 
+    @GetMapping("/print-betting-history/{userId}")
+    public ResponseEntity<?> printBettingHistory(@PathVariable String userId) {
+        betService.printBettingHistory(userId);
+        return ResponseEntity.ok("Betting history printed to console");
+    }
+
+
     @GetMapping("/{userId}/amount-won")
     public ResponseEntity<Double> getAmountWon(@PathVariable String userId) {
         double amountWon = betService.getAmountWon(userId);

@@ -13,7 +13,11 @@ public class Bet {
     private String gameType;
     private boolean won;
     private LocalDateTime createdAt;    //mb dont need it
-    private final String userId;
+    private String userId;
+
+    public Bet(){
+        this.createdAt = LocalDateTime.now();
+    }
 
     public Bet(String userId) {
         this.userId = userId;

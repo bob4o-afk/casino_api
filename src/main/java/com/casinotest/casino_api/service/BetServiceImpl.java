@@ -2,9 +2,8 @@ package com.casinotest.casino_api.service;
 
 import com.casinotest.casino_api.model.Bet;
 import com.casinotest.casino_api.model.User;
-import com.mysql.cj.x.protobuf.MysqlxDatatypes.Array;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -22,7 +21,6 @@ public class BetServiceImpl implements BetService {
     private final UserService userService;
     private final JdbcTemplate jdbcTemplate;
 
-    @Autowired
     public BetServiceImpl(UserService userService, JdbcTemplate jdbcTemplate) {
         this.userService = userService;
         this.jdbcTemplate = jdbcTemplate;
@@ -85,6 +83,7 @@ public class BetServiceImpl implements BetService {
     
             user.addBetToHistory(bet);
             System.out.println("Bet placed successfully");
+            System.out.println(user);
             return true; // Bet placed successfully
         }
     
@@ -97,6 +96,8 @@ public class BetServiceImpl implements BetService {
         String sql = "SELECT * FROM bet WHERE user_id = ?";
         return jdbcTemplate.query(sql, new Object[]{userId}, new BeanPropertyRowMapper<>(Bet.class));
     }
+
+    
 
     @Override
     public double getAmountWon(String userId) {
@@ -111,9 +112,22 @@ public class BetServiceImpl implements BetService {
     }
 
     // Add other methods as needed
-
     private String generateBetId() {
         return "bet" + UUID.randomUUID().toString();
+    }
+
+    @Override
+    public void printBettingHistory(String userId) {
+        List<Bet> bettingHistory = getBettingHistory(userId);
+
+        if (bettingHistory.isEmpty()) {
+            System.out.println("No betting history available for user with ID: " + userId);
+        } else {
+            System.out.println("Betting history for user with ID: " + userId);
+            for (Bet bet : bettingHistory) {
+                System.out.println(bet);
+            }
+        }
     }
 
 }

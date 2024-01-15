@@ -87,6 +87,7 @@ public class UserServiceImpl implements UserService {
     private String generateUserId(String username) {
             return username + UUID.randomUUID().toString();
     }
+    
     public void printUserIds() {
         String sql = "SELECT user_id FROM user";
         List<String> userIds = jdbcTemplate.queryForList(sql, String.class);
